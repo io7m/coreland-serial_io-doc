@@ -18,22 +18,89 @@
 
   (subsection
     (title "Integer Encoding")
-
-    (para "Integers are split into four distinct types of bit sizes that are
-      integer powers-of-two.")
-
+    (para "Integers are divided into four distinct types, of bit sizes that are
+      integer powers-of-two:")
     (list
-      (item (link "serial_io_unsigned_8" "Unsigned_8"))
-      (item (link "serial_io_unsigned_16" "Unsigned_16"))
-      (item (link "serial_io_unsigned_32" "Unsigned_32"))
-      (item (link "serial_io_unsigned_64" "Unsigned_64")))
-
+      (item (link "serial_io_unsigned_8" "Unsigned_8_t"))
+      (item (link "serial_io_unsigned_16" "Unsigned_16_t"))
+      (item (link "serial_io_unsigned_32" "Unsigned_32_t"))
+      (item (link "serial_io_unsigned_64" "Unsigned_64_t")))
     (para "When written to a stream using the " (item ada_attribute "'Write")
       " or " (item ada_attribute "'Output") " attributes, integers are
       converted from the native system byte-order to big-endian byte order
       before being written.")
-
     (para "When read from a stream using the " (item ada_attribute "'Read")
       " or " (item ada_attribute "'Input") " attributes, integers are read
       in big-endian byte order before being converted to the native system
-      byte order for use.")))
+      byte order for use.")
+    (para "The values are encoded as a sequence of octets. The number of
+      octets used for each type " (item variable "T") " is equal to "
+      (item variable "T") "'" (item ada_attribute "Size") " "
+      (item operator "/") " "
+      (item constant "8") "."))
+
+  (subsection
+    (title "Boolean encoding")
+    (para (item ada_type "Boolean") " types are encoded as "
+      (link "serial_io_unsigned_32" "Unsigned_32_t") " types, representing "
+      (item constant "True") " as " (item constant "1") " and "
+      (item constant "False") " as " (item constant "0") ".")
+    (para "The " (item package "Serial_IO") " package does not provide a
+      replacement " (item ada_type "Boolean") " type with encoding
+      attributes."))
+
+  (subsection
+    (title "Enumeration encoding")
+    (para "Enumeration types are encoded as "
+      (link "serial_io_unsigned_32" "Unsigned_32_t") " types with the "
+      " first value encoded as " (item constant "0") ", increasing
+      by " (item constant "1") " for each successive value.")
+    (para "Attributes for enumeration types must be written and
+      assigned manually:")
+    (para-verbatim example
+"type Device_Status_t is
+  (Device_OK,
+   Device_Failed,
+   Device_On_Fire);
+
+procedure Device_Status_Write
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : in Device_Status_t) is
+begin
+  Pack_IO.Attribute_Write_32_BE
+    (Stream => Stream,
+     Item   => Device_Status_t'Pos (Item));
+end Device_Status_Write;
+
+procedure Device_Status_Read
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : out Device_Status_t)
+is
+  Temporary : Pack_IO.Unsigned_32_t;
+begin
+  Pack_IO.Attribute_Read_32_BE
+    (Stream => Stream,
+     Item   => Temporary);
+  Item := Device_Status_t'Val (Temporary);
+end Device_Status_Read;
+
+for Device_Status_t'Read use Device_Status_Read;
+for Device_Status_t'Write use Device_Status_Write;"))
+
+  (subsection
+    (title "String Encoding")
+    (para "Strings are encoded as UTF-8 "
+      (footnote (link-ext "http://www.ietf.org/rfc/rfc3629.txt")) " and
+      always include bounds information in streams.")
+    (para "Strings are always encoded in streams as follows: The lower
+      bound of the original string as an "
+      (link "serial_io_unsigned_32" "Unsigned_32_t") ", followed by
+      the upper bound of the original string as an "
+      (link "serial_io_unsigned_32" "Unsigned_32_t") ", followed by
+      the length of the UTF-8 encoded data as an "
+      (link "serial_io_unsigned_32" "Unsigned_32_t") ", finally
+      followed by the actual UTF-8 encoded data.")
+    (para "The " (item package "Serial_IO") " package provides a "
+      (link "serial_io_utf8_wide_string" "UTF8_Wide_String_t") " type
+      with stream default attributes that provide the above.")))
+

@@ -1,0 +1,51 @@
+(section
+  (ref "serial_io_utf8_wide_string")
+  (title "UTF8_Wide_String_t")
+
+  (subsection
+    (title "Synopsis")
+    (para-verbatim package_synopsis
+"subtype UTF8_String_Size_t  is Unsigned_32_t;
+subtype UTF8_String_Index_t is UTF8_String_Size_t range 1 .. UTF8_String_Size_t'Last;
+type    UTF8_String_t is array (UTF8_String_Index_t range <>) of Wide_Character;
+pragma Pack (UTF8_String_t);
+
+procedure UTF8_String_Attribute_Output
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : in UTF8_String_t);
+
+procedure UTF8_String_Attribute_Write
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : in UTF8_String_t)
+  renames UTF8_String_Attribute_Output;
+
+procedure UTF8_String_Attribute_Read
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : out UTF8_String_t);
+
+function UTF8_String_Attribute_Input
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class)
+    return UTF8_String_t;
+
+for UTF8_String_t'Output use UTF8_String_Attribute_Output;
+for UTF8_String_t'Write  use UTF8_String_Attribute_Write;
+for UTF8_String_t'Input  use UTF8_String_Attribute_Input;
+for UTF8_String_t'Read   use UTF8_String_Attribute_Read;"))
+  (subsection
+    (title "Description")
+    (para "The " (item ada_type "UTF8_Wide_String_t") " type provides
+      a type analogous to the standard Ada " (item ada_type "Wide_String") 
+      " type but with default attributes and a specific index type allowing
+      adherence to the strict encoding rules."))
+  (subsection
+    (title "Implementation")
+    (para "The " (item ada_attribute "Read") " and " (item ada_attribute "Write")
+      " attributes do not strictly obey Ada attribute semantics in that they
+      always read/write bounds information from/to streams. This is due to the
+      fact that UTF-8 is a variable length encoding and therefore, objects that
+      were originally of a fixed size may vary in size when encoded. Explicit
+      bounds in streams are required for correctness and cannot be omitted. For
+      safety reasons, the attribute procedures check the values provided in
+      streams and raise "
+      (item ada_exception "Constraint_Error") " if any values are not as
+      expected.")))
