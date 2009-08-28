@@ -55,37 +55,9 @@
       (link "serial_io_unsigned_32" "Unsigned_32_t") " types with the "
       " first value encoded as " (item constant "0") ", increasing
       by " (item constant "1") " for each successive value.")
-    (para "Attributes for enumeration types must be written and
-      assigned manually:")
-    (para-verbatim example
-"type Device_Status_t is
-  (Device_OK,
-   Device_Failed,
-   Device_On_Fire);
-
-procedure Device_Status_Write
-  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
-   Item   : in Device_Status_t) is
-begin
-  Pack_IO.Attribute_Write_32_BE
-    (Stream => Stream,
-     Item   => Device_Status_t'Pos (Item));
-end Device_Status_Write;
-
-procedure Device_Status_Read
-  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
-   Item   : out Device_Status_t)
-is
-  Temporary : Pack_IO.Unsigned_32_t;
-begin
-  Pack_IO.Attribute_Read_32_BE
-    (Stream => Stream,
-     Item   => Temporary);
-  Item := Device_Status_t'Val (Temporary);
-end Device_Status_Read;
-
-for Device_Status_t'Read use Device_Status_Read;
-for Device_Status_t'Write use Device_Status_Write;"))
+    (para "Attributes for enumeration types are provided by the "
+      (link "serial_io_serializable_enumeration" "Serial_IO.Serializable_Enumeration")
+      " package."))
 
   (subsection
     (title "String Encoding")

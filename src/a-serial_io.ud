@@ -7,4 +7,5 @@
   (include "a-serial_io-unsigned_16.ud")
   (include "a-serial_io-unsigned_32.ud")
   (include "a-serial_io-unsigned_64.ud")
-  (include "a-serial_io-utf8_wide_string.ud"))
+  (include "a-serial_io-utf8_wide_string.ud")
+  (include "a-serial_io-serializable_enumeration.ud"))
