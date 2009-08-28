@@ -1,0 +1,39 @@
+(section
+  (title "Encoding Rules")
+
+  (subsection
+    (title "Intention")
+    (para "The intention of the encoding rules is to provide a common, platform
+      agnostic base for the transmission of binary data using standard "
+        (link-ext "http://www.adaic.org/standards/05rm/html/RM-13-13.html" "Stream_IO")
+      ". The Ada programming language already specifies some important
+      elements such as the order of output for composite types and the
+      encoding rules presented here essentially formalize the
+      unspecified details such as integer byte ordering and text
+      encoding in a manner reasonable for any vaguely modern computer system.")
+  
+    (para "See section 13.13.2 of the Ada 2005 RM "
+      (footnote (item (link-ext "http://www.adaic.org/standards/05rm/html/RM-13-13-2.html")))
+      " for details."))
+
+  (subsection
+    (title "Integer Encoding")
+
+    (para "Integers are split into four distinct types of bit sizes that are
+      integer powers-of-two.")
+
+    (list
+      (item (link "serial_io_unsigned_8" "Unsigned_8"))
+      (item (link "serial_io_unsigned_16" "Unsigned_16"))
+      (item (link "serial_io_unsigned_32" "Unsigned_32"))
+      (item (link "serial_io_unsigned_64" "Unsigned_64")))
+
+    (para "When written to a stream using the " (item ada_attribute "'Write")
+      " or " (item ada_attribute "'Output") " attributes, integers are
+      converted from the native system byte-order to big-endian byte order
+      before being written.")
+
+    (para "When read from a stream using the " (item ada_attribute "'Read")
+      " or " (item ada_attribute "'Input") " attributes, integers are read
+      in big-endian byte order before being converted to the native system
+      byte order for use.")))

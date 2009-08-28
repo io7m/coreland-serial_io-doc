@@ -48,7 +48,9 @@ hr {
 .function_synopsis,
 .http_cookie,
 .package,
+.package_synopsis,
 .parameter,
+.procedure_synopsis,
 .struct,
 .struct_field,
 .tag_name,
@@ -109,6 +111,8 @@ table.exception_table td {
 
 .quote,
 .source,
+.package_synopsis,
+.procedure_synopsis,
 .function_synopsis,
 .ada_type_synopsis,
 .tag_synopsis

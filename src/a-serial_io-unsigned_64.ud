@@ -1,0 +1,70 @@
+(section
+  (ref "serial_io_unsigned_64")
+  (title "Unsigned_64")
+
+  (subsection
+    (title "Synopsis")
+    (para-verbatim package_synopsis
+"type Unsigned_64_t is new Interfaces.Unsigned_64;
+type Unsigned_64_Packed_Index_t is range 1 .. 8;
+type Unsigned_64_Packed_t is array (Unsigned_64_Packed_Index_t) of Unsigned_8_t;
+pragma Pack (Unsigned_64_Packed_t);
+
+procedure Pack_64_BE
+  (Input  : in     Unsigned_64_t;
+   Output :    out Unsigned_64_Packed_t);
+
+procedure Pack_64_LE
+  (Input  : in     Unsigned_64_t;
+   Output :    out Unsigned_64_Packed_t);
+
+procedure Unpack_64_BE
+  (Input  : in     Unsigned_64_Packed_t;
+   Output :    out Unsigned_64_t);
+
+procedure Unpack_64_LE
+  (Input  : in     Unsigned_64_Packed_t;
+   Output :    out Unsigned_64_t);
+
+procedure Attribute_Write_64_BE
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : in Unsigned_64_t);
+
+procedure Attribute_Read_64_BE
+  (Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+   Item   : out Unsigned_64_t);
+
+for Unsigned_64_t'Write use Attribute_Write_64_BE;
+for Unsigned_64_t'Read  use Attribute_Read_64_BE;"))
+
+  (subsection
+    (title "Packing")
+    (para-verbatim procedure_synopsis
+"procedure Pack_64_BE
+  (Input  : in     Unsigned_64_t;
+   Output :    out Unsigned_64_Packed_t);
+
+procedure Pack_64_LE
+  (Input  : in     Unsigned_64_t;
+   Output :    out Unsigned_64_Packed_t);")
+    (para "The " (item ada_procedure "Pack_64_BE") " and "
+      (item ada_procedure "Pack_64_LE") " pack an "
+      (item ada_type "Unsigned_64_t") " integer " (item parameter "Input")
+      " into an array of octets " (item parameter "Output") " in big-endian
+      and little-endian byte order, respectively."))
+
+  (subsection
+    (title "Unpacking")
+    (para-verbatim procedure_synopsis
+"procedure Unpack_64_BE
+  (Input  : in     Unsigned_64_Packed_t;
+   Output :    out Unsigned_64_t);
+
+procedure Unpack_64_LE
+  (Input  : in     Unsigned_64_Packed_t;
+   Output :    out Unsigned_64_t);")
+    (para "The " (item ada_procedure "Unpack_64_BE") " and "
+      (item ada_procedure "Unpack_64_LE") " unpack an integer "
+      (item parameter "Output") " from an array of octets "
+      (item parameter "Input") " arranged in big-endian and
+      little-endian byte order, respectively.")))

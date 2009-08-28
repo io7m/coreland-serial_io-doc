@@ -1,0 +1,9 @@
+(section
+  (ref "serial_io")
+  (title "Serial_IO API Reference")
+  (contents)
+
+  (include "a-serial_io-unsigned_8.ud")
+  (include "a-serial_io-unsigned_16.ud")
+  (include "a-serial_io-unsigned_32.ud")
+  (include "a-serial_io-unsigned_64.ud"))

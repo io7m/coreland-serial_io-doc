@@ -1,0 +1,10 @@
+(section
+  (ref "serial_io_unsigned_8")
+  (title "Unsigned_8")
+
+  (subsection
+    (title "Synopsis")
+    (para-verbatim package_synopsis
+"type Unsigned_8_t is mod 2 ** 8;
+for  Unsigned_8_t'Size use 8;
+for  Unsigned_8_t'Alignment use 8;")))
