@@ -36,7 +36,7 @@ for UTF8_String_t'Read   use UTF8_String_Attribute_Read;"))
     (para "The " (item ada_type "UTF8_Wide_String_t") " type provides
       a type analogous to the standard Ada " (item ada_type "Wide_String") 
       " type but with default attributes and a specific index type allowing
-      adherence to the strict encoding rules."))
+      adherence to the encoding rules."))
   (subsection
     (title "Implementation")
     (para "The " (item ada_attribute "Read") " and " (item ada_attribute "Write")
